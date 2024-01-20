@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include "halconf.h"
 #include "print.h"
+#include <math.h>
 
 
 
@@ -149,7 +150,7 @@ void sendCommand(uint8_t value)
     writePinHigh(TM1638_STB_PIN);
 }
 
-void reset()
+void  reset()
 {
     sendCommand(TM_WRITE_INC);
     writePinLow(TM1638_STB_PIN);
@@ -209,6 +210,47 @@ void displayText(const char *text) {
 		}
 }
 
+void displayTextRight(const char *text) {
+    // Calculate the starting position to display the text on the far right
+	//if there is "." in the text
+	uint8_t startPos = TM_DISPLAY_SIZE - strlen(text);
+   
+
+
+    // Ensure startPos is not negative
+    startPos = startPos < 0 ? 0 : startPos;
+
+    char c;
+    while ((c = (*text++)) && startPos < TM_DISPLAY_SIZE) {
+        if (*text == '.' && c != '.') {
+            displayASCIIwDot((startPos++), c);
+            text++;
+        } else {
+            displayASCII(startPos++, c);
+        }
+    }
+}
+
+void displayTextRightFloat(const char *text) {
+    // Calculate the starting position to display the text on the far right
+	//if there is "." in the text
+	uint8_t startPos = TM_DISPLAY_SIZE - strlen(text)+1;
+   
+
+
+    // Ensure startPos is not negative
+    startPos = startPos < 0 ? 0 : startPos;
+
+    char c;
+    while ((c = (*text++)) && startPos < TM_DISPLAY_SIZE) {
+        if (*text == '.' && c != '.') {
+            displayASCIIwDot((startPos++), c);
+            text++;
+        } else {
+            displayASCII(startPos++, c);
+        }
+    }
+}
 
 void displayIntNum(unsigned long number, bool leadingZeros)
 {
@@ -275,6 +317,5 @@ void DisplayDecNumNibble(uint16_t  numberUpper, uint16_t numberLower, bool leadi
 	 strcat(valuesUpper ,valuesLower);
 	 displayText(valuesUpper);
 }
-
 
 

@@ -18,11 +18,12 @@ void keyboard_post_init_user(void) {
   setPinOutput(TM1638_DIO_PIN);
 
   displayBegin();
-  brightness(2);
+  wait_ms(0.1);
+  brightness(7);
 };
 enum custom_keycodes {
-  KC_clear,   
-  KC_divide, 
+  KC_clear = QK_USER,   
+  KC_div, 
   KC_times, 
   KC_minus,
   KC_seven,   
@@ -56,7 +57,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * └───────┴───┴───┘
      */
     [0] = LAYOUT_numpad(
-        KC_NUM,   KC_PSLS, KC_PAST, KC_PMNS,
+        KC_NUM,  KC_PSLS, KC_PAST, KC_PMNS,
         KC_P7,   KC_P8,   KC_P9,
         KC_P4,   KC_P5,   KC_P6,   KC_PPLS,
         KC_P1,   KC_P2,   KC_P3,
@@ -64,13 +65,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [1] = LAYOUT_calc(
-        KC_clear,   KC_divide, KC_times, KC_minus,
+        QK_USER,   KC_div, KC_times, KC_minus,
         KC_seven,   KC_eight,   KC_nine,
         KC_four,   KC_five,   KC_six,   KC_plus,
         KC_one,   KC_two,   KC_three,
         KC_zero,   KC_dot,          KC_equals
     )
 };
+
 
 
 
